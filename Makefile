@@ -75,7 +75,7 @@ OBJECTS := 	intensities.o \
 
 all: image-intensities
 
-install:
+install: image-intensities
 	$(INSTALL) image-intensities $(PREFIX)/bin/image-intensities
 
 uninstall:
