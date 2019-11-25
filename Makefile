@@ -88,7 +88,7 @@ turbojpeg/%.o: turbojpeg/%.c
 	$(CC) $< -c -o $@ -O3 -DPPM_SUPPORTED -DBMP_SUPPORTED -Iturbojpeg
 
 %.o: %.c
-	$(CC) $< -c -o $@ -O3
+	$(CC) $< -c -o $@ -O3 -Iturbojpeg
 
 clean:
 	$(RM) -rf $(JPEG_OBJECTS)
