@@ -1,7 +1,9 @@
-CC    ?= cc
-AR    ?= ar
-RM    ?= rm
-MKDIR ?= mkdir
+CC    	?= cc
+AR   	?= ar
+RM    	?= rm
+MKDIR 	?= mkdir
+INSTALL ?= install
+PREFIX	?= /usr/local
 
 JPEG_OBJECTS := turbojpeg/jsimd_none.o \
 		turbojpeg/jchuff.o \
@@ -72,6 +74,12 @@ OBJECTS := 	intensities.o \
 .PHONY: all clean
 
 all: image-intensities
+
+install:
+	$(INSTALL) image-intensities $(PREFIX)/bin/image-intensities
+
+uninstall:
+	$(RM) -rf $(PREFIX)/bin/image-intensities
 
 image-intensities: $(OBJECTS) $(JPEG_OBJECTS)
 	$(CC) $^ -lpng -lmagic -o $@
