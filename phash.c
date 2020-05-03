@@ -116,7 +116,7 @@ static void compute_components(float components[static 64], float dct[static 102
     components[7*8 + 7] = dct[8*32 + 8];
 }
 
-float component_median(float components[static 64])
+static float component_median(float components[static 64])
 {
     float input[64];
 
