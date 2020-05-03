@@ -18,7 +18,7 @@ static float lanczos_kernel(float input)
     return (a * sinf(M_PI * input) * sinf(M_PI * input / a)) / ((M_PI * M_PI) * (input * input));
 }
 
-static rgb_pixel lanczos_interp32h(const rgb_pixel *restrict src, uint32_t width, double point)
+static rgb_pixel lanczos_interp32h(const rgb_pixel *restrict src, uint32_t width, float point)
 {
     float r = 0;
     float g = 0;
@@ -40,7 +40,7 @@ static rgb_pixel lanczos_interp32h(const rgb_pixel *restrict src, uint32_t width
     };
 }
 
-static rgb_pixel lanczos_interp32v(const rgb_pixel *restrict src, uint32_t height, double point)
+static rgb_pixel lanczos_interp32v(const rgb_pixel *restrict src, uint32_t height, float point)
 {
     float r = 0;
     float g = 0;
@@ -94,7 +94,7 @@ static rgb_pixel *scale_32x32(const rgb_pixel *restrict src, uint32_t width, uin
 
 static void compute_intensity(float intensity[static 1024], const rgb_pixel *restrict src)
 {
-    for (int i = 0; i < 1024; ++i) {
+    for (size_t i = 0; i < 1024; ++i) {
         intensity[i] = ((src[i].r * sRGB_R_Y) +
                         (src[i].g * sRGB_G_Y) + 
                         (src[i].b * sRGB_B_Y));
