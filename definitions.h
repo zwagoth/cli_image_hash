@@ -44,9 +44,9 @@ typedef struct intensity_data {
 
 raster_data read_jpeg_file(const char *file_name);
 raster_data read_png_file(const char *file_name);
-quadrant_sums rgb_sums(rgb_pixel *restrict pixels, uint32_t width, uint32_t height);
+quadrant_sums rgb_sums(const rgb_pixel *restrict pixels, uint32_t width, uint32_t height);
 intensity_data rgb_to_luma(quadrant_sums sums, raster_data data);
-uint64_t phash(rgb_pixel *restrict pixels, uint32_t width, uint32_t height);
+uint64_t phash(const rgb_pixel *restrict pixels, uint32_t width, uint32_t height);
 
 void fdct(float dst[static 1024], const float src[static 1024]);
 

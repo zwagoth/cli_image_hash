@@ -8,7 +8,7 @@
 
 #include "definitions.h"
 
-quadrant_sums rgb_sums(rgb_pixel *restrict pixels, uint32_t width, uint32_t height)
+quadrant_sums rgb_sums(const rgb_pixel *restrict pixels, uint32_t width, uint32_t height)
 {
     quadrant_sums sums = {{}};
 

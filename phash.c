@@ -8,7 +8,8 @@
 #define MAX(x,y) ((x) > (y) ? (x) : (y))
 #define CLAMP(min,val,max) MIN(MAX(min, val), max)
 
-const int a = 3;
+// Lanczos window parameter
+#define a 3
 
 static float lanczos_kernel(float input)
 {
@@ -101,7 +102,7 @@ static void compute_intensity(float intensity[static 1024], const rgb_pixel *res
     }
 }
 
-static void compute_components(float components[static 64], float dct[static 1024])
+static void compute_components(float components[static 64], const float dct[static 1024])
 {
     // Top left corner, excluding DC offset
     for (uint32_t i = 0; i < 8; ++i) {
@@ -116,7 +117,7 @@ static void compute_components(float components[static 64], float dct[static 102
     components[7*8 + 7] = dct[8*32 + 8];
 }
 
-static float component_median(float components[static 64])
+static float component_median(const float components[static 64])
 {
     float input[64];
 
@@ -138,7 +139,7 @@ static float component_median(float components[static 64])
     return (input[31] + input[32]) / 2;
 }
 
-uint64_t phash(rgb_pixel *restrict pixels, uint32_t width, uint32_t height)
+uint64_t phash(const rgb_pixel *restrict pixels, uint32_t width, uint32_t height)
 {
     rgb_pixel *scaled = scale_32x32(pixels, width, height);
 
