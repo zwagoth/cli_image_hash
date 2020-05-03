@@ -36,6 +36,7 @@ typedef struct intensity_data {
     double ne;
     double sw;
     double se;
+    uint64_t phash;
     int error;
 } intensity_data;
 

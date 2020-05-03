@@ -2,6 +2,7 @@
 #include <magic.h>
 #include <stdio.h>
 #include <string.h>
+#include <vips/vips.h>
 
 static const char *mime_type(const char *filename)
 {
@@ -21,7 +22,7 @@ static int print_data(intensity_data data)
         return 1;
     }
 
-    printf("%f\t%f\t%f\t%f\n", data.nw, data.ne, data.sw, data.se);
+    printf("%f\t%f\t%f\t%f\t%lu\n", data.nw, data.ne, data.sw, data.se, data.phash);
 
     return 0;
 }
@@ -35,6 +36,9 @@ int main(int argc, char *argv[])
         fprintf(stderr, "Expected to be called with 2 arguments\n");
         return 1;
     }
+
+    if( VIPS_INIT( argv[0] ) )
+        vips_error_exit( NULL );
 
     file_mime = mime_type(argv[1]);
 
