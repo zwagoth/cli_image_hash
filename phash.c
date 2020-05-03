@@ -104,17 +104,14 @@ static void compute_intensity(float intensity[static 1024], const rgb_pixel *res
 
 static void compute_components(float components[static 64], const float dct[static 1024])
 {
-    // Top left corner, excluding DC offset
     for (uint32_t i = 0; i < 8; ++i) {
         for (uint32_t j = 0; j < 8; ++j) {
-            if (i == 0 && j == 0) continue;
-
-            components[i * 8 + j - 1] = dct[i * 32 + j];
+            components[i * 8 + j] = dct[i * 32 + j];
         }
     }
 
-    // Bottom outlier (to fill top gap)
-    components[7*8 + 7] = dct[8*32 + 8];
+    // Bottom outlier (to replace DC offset)
+    components[0] = dct[8*32 + 8];
 }
 
 static float component_median(const float components[static 64])
@@ -129,7 +126,6 @@ static float component_median(const float components[static 64])
         for (size_t j = 0; j < 63; ++j) {
             if (input[j] > input[j + 1]) {
                 float tmp = input[j + 1];
-
                 input[j + 1] = input[j];
                 input[j] = tmp;
             }
@@ -156,7 +152,8 @@ uint64_t phash(const rgb_pixel *restrict pixels, uint32_t width, uint32_t height
     float median = component_median(components);
     uint64_t phash = 0;
 
-    for (size_t i = 0; i < 64; ++i, phash <<= 1) {
+    for (size_t i = 0; i < 64; ++i) {
+        phash <<= 1;
         phash |= (components[i] > median);
     }
 
