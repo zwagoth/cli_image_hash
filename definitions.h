@@ -3,8 +3,6 @@
 
 #include <stdint.h>
 
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
-
 typedef struct rgb_pixel {
     uint8_t r;
     uint8_t g;
@@ -43,8 +41,9 @@ typedef struct intensity_data {
 raster_data read_jpeg_file(const char *file_name);
 raster_data read_png_file(const char *file_name);
 quadrant_sums rgb_sums(rgb_pixel *restrict pixels, uint32_t width, uint32_t height);
+intensity_data rgb_to_luma(quadrant_sums sums, raster_data data);
+uint64_t phash(rgb_pixel *restrict pixels, uint32_t width, uint32_t height);
 
-intensity_data jpeg_intensities(const char *file_name);
-intensity_data png_intensities(const char *file_name);
+void fdct(float dst[static 1024], const float src[static 1024]);
 
 #endif
