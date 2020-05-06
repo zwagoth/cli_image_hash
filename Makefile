@@ -4,8 +4,6 @@ RM    	?= rm
 MKDIR 	?= mkdir
 INSTALL ?= install
 PREFIX	?= /usr/local
-CFLAGS=${shell pkg-config vips --cflags}
-LDFLAGS=${shell pkg-config vips --libs}
 
 JPEG_OBJECTS := turbojpeg/jsimd_none.o \
 		turbojpeg/jchuff.o \
@@ -72,6 +70,7 @@ OBJECTS := 	intensities.o \
 		jpeg.o \
 		png.o \
 		dct.o \
+		phash.o \
 		main.o
 
 .PHONY: all clean
@@ -85,13 +84,13 @@ uninstall:
 	$(RM) -rf $(PREFIX)/bin/image-intensities
 
 image-intensities: $(OBJECTS) $(JPEG_OBJECTS)
-	$(CC) $^ -lpng -lmagic -o $@ ${LDFLAGS}
+	$(CC) $^ -lpng -lmagic -lm -o $@
 
 turbojpeg/%.o: turbojpeg/%.c
 	$(CC) $< -c -o $@ -O3 -DPPM_SUPPORTED -DBMP_SUPPORTED -Iturbojpeg
 
 %.o: %.c
-	$(CC) $< -c -o $@ -O3 -Iturbojpeg ${CFLAGS}
+	$(CC) $< -c -o $@ -O3 -Iturbojpeg
 
 clean:
 	$(RM) -rf $(JPEG_OBJECTS)
