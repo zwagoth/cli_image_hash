@@ -6,6 +6,8 @@
 
 #include "definitions.h"
 
+static png_color_16 black = { 0 };
+
 static void user_warning_fn(png_structp png_ptr, png_const_charp warning_msg)
 {
     // discard
@@ -48,10 +50,11 @@ raster_data read_png_file(const char *file_name)
     data.width = png_get_image_width(png_ptr, info_ptr);
     data.height = png_get_image_height(png_ptr, info_ptr);
 
-    png_set_strip_16(png_ptr);
-    png_set_strip_alpha(png_ptr);
-    png_set_gray_to_rgb(png_ptr);
     png_set_expand(png_ptr);
+    png_set_scale_16(png_ptr);
+    png_set_gray_to_rgb(png_ptr);
+    png_set_alpha_mode(png_ptr, PNG_ALPHA_PNG, PNG_DEFAULT_sRGB);
+    png_set_background(png_ptr, &black, PNG_BACKGROUND_GAMMA_SCREEN, 0, 1);
     png_set_interlace_handling(png_ptr);
     png_read_update_info(png_ptr, info_ptr);
 
